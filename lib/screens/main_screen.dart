@@ -5,6 +5,7 @@ import 'package:flutter_demo/screens/chat_screen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginSignUpScreen extends StatefulWidget {
   const LoginSignUpScreen({Key? key}) : super(key: key);
@@ -437,19 +438,29 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                                 email: userEmail,
                                 password: userPassword,
                               );
+                              // user id sign up
+                              FirebaseFirestore.instance.collection('user').doc(newUser.user!.uid)
+                                  .set({
+                                'userName' : userName,
+                                'email' : userEmail
+                              });
+
                               if(newUser.user != null) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                    builder: (context){
-                                      return ChatScreen();
-                                    }),
-                                );
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //     builder: (context){
+                                //       return ChatScreen();
+                                //     }),
+                                // );
                                 setState(() {
                                   showSpinner = false;
                                 });
                               }
                             }catch(e){
+                              setState(() {
+                                showSpinner = false;
+                              });
                               print(e);
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -457,6 +468,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                                     backgroundColor: Colors.blue,
                                   ),
                               );
+
                             }
                           }
                           // sign up
@@ -467,7 +479,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                                 email: userEmail,
                                 password: userPassword,
                               );
-                              print('user email : ' + userEmail);
+
                               if(newUser.user != null) {
                                     Navigator.push(
                                       context,
@@ -476,14 +488,21 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                                           return ChatScreen();
                                       }),
                                     );
+                                setState(() {
+                                  showSpinner = false;
+                                });
                               }
                             }catch(e){
+                              setState(() {
+                                showSpinner = false;
+                              });
                               print(e);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('Please check your email and password'),
                                   backgroundColor: Colors.blue,
                                 ),
+
                               );
                             }
                           }
