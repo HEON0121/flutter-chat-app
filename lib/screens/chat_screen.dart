@@ -55,7 +55,8 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Container(
         child: Column(
           children: [
-            Expanded(child: Message()
+            Expanded(
+                child: Message()
             ),
             NewMessage(),
           ],
