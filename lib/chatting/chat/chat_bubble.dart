@@ -9,11 +9,18 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(12)
+            color: isMe ? Colors.grey[300] : Colors.blue,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(12),
+              topLeft: Radius.circular(12),
+              bottomRight: isMe ? Radius.circular(0) : Radius.circular(12),
+              bottomLeft: isMe ? Radius.circular(12) : Radius.circular(0),
+            )
+
           ),
           width: 145,
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -21,7 +28,7 @@ class ChatBubble extends StatelessWidget {
           child: Text(
               message,
               style: TextStyle(
-                  color: Colors.white
+                  color: isMe ? Colors.black : Colors.white
               ),
           ),
         ),
