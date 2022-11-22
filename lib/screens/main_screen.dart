@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/add_image/add_image.dart';
 import 'package:flutter_demo/config/Palette.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_demo/screens/chat_screen.dart';
@@ -6,7 +7,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter_demo/add_image/';
 class LoginSignUpScreen extends StatefulWidget {
   const LoginSignUpScreen({Key? key}) : super(key: key);
 
@@ -29,6 +30,18 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
     if(isValid){
       _formKey.currentState!.save();
     }
+  }
+
+  void showAlert(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (context){
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: AddImage(),
+          );
+        },
+        );
   }
 
   @override
@@ -159,13 +172,27 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                               },
                               child: Column(
                                 children: [
-                                  Text(
-                                    'SIGNUP',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: isSignupScreen ? Palette.activeColor : Palette.textColor1
-                                    ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'SIGNUP',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: isSignupScreen ? Palette.activeColor : Palette.textColor1
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      GestureDetector(
+                                        onTap: (){
+                                          showAlert(context);
+                                        },
+                                        child: Icon(Icons.image_outlined,
+                                        color: isSignupScreen ? Colors.orange : Colors.grey[300],),
+                                      )
+                                    ],
                                   ),
                                   if(isSignupScreen)
                                   Container(
